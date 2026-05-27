@@ -148,7 +148,7 @@ h1{font-family:'Jua',sans-serif;font-size:26px;letter-spacing:.5px;
 .outlet{margin:10px auto 0;width:104px;height:22px;border-radius:11px;
   background:linear-gradient(180deg,rgba(160,40,80,.4),rgba(160,40,80,.6));box-shadow:inset 0 2px 5px rgba(120,20,50,.6);}
 
-.draw-btn{margin-top:16px;width:100%;padding:17px;border:none;border-radius:20px;cursor:pointer;flex-shrink:0;
+.draw-btn{margin-top:4px;width:100%;padding:17px;border:none;border-radius:20px;cursor:pointer;flex-shrink:0;
   font-family:'Jua';font-size:18px;letter-spacing:1px;color:#fff;position:relative;overflow:hidden;
   background:linear-gradient(120deg,var(--rose-d),var(--rose) 45%,var(--peach));
   box-shadow:0 16px 32px -12px var(--glow);transition:.18s;}
@@ -157,7 +157,7 @@ h1{font-family:'Jua',sans-serif;font-size:26px;letter-spacing:.5px;
 .draw-btn .shine{position:absolute;top:0;left:-60%;width:40%;height:100%;
   background:linear-gradient(120deg,transparent,rgba(255,255,255,.55),transparent);animation:shine 2.6s ease-in-out infinite;}
 @keyframes shine{0%{left:-60%;}55%,100%{left:130%;}}
-.hint{text-align:center;margin-top:9px;font-size:12.5px;color:var(--text3);flex-shrink:0;}
+.hint{text-align:center;margin:0 0 10px;font-size:13px;color:var(--text2);flex-shrink:0;}
 
 /* small screens (SE 등) 추가 압축 */
 @media (max-height:700px){
@@ -166,8 +166,8 @@ h1{font-family:'Jua',sans-serif;font-size:26px;letter-spacing:.5px;
   .tabbar{margin:10px 0 10px;}
   .m-title{margin-bottom:8px;font-size:18px;}
   .dome{height:34dvh;}
-  .draw-btn{margin-top:12px;padding:15px;font-size:17px;}
-  .hint{margin-top:7px;}
+  .draw-btn{margin-top:0;padding:15px;font-size:17px;}
+  .hint{margin:0 0 8px;}
 }
 
 /* ===== TODAY (date cards) ===== */
@@ -251,7 +251,11 @@ body.modal-open .draw-btn{visibility:hidden;}
 .photo-pick .ph-x{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;
   background:rgba(0,0,0,.5);color:#fff;border:none;font-size:15px;cursor:pointer;display:none;z-index:2;}
 .photo-pick.has .ph-x{display:flex;align-items:center;justify-content:center;}
-.photo-pick .ph-icon{font-size:40px;}
+.photo-pick .ph-plus{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-size:30px;font-weight:300;line-height:1;color:var(--rose);
+  background:rgba(255,122,162,.12);border:1.5px solid var(--line2);}
+.photo-pick .ph-label small{display:block;margin-top:4px;font-size:11px;color:var(--text3);opacity:.85;}
+.photo-pick.has .ph-plus,.photo-pick.has .ph-label{display:none;}
 .add-btn{margin-top:18px;width:100%;padding:16px;border:none;border-radius:16px;cursor:pointer;
   font-family:'Jua';font-size:16px;color:#fff;background:linear-gradient(120deg,var(--rose-d),var(--rose));
   box-shadow:0 12px 26px -10px var(--glow);transition:.15s;}
@@ -376,6 +380,29 @@ body.modal-open .draw-btn{visibility:hidden;}
   background:linear-gradient(120deg,var(--rose),var(--rose-d));color:#fff;font-family:'Jua';font-size:11px;
   display:flex;align-items:center;justify-content:center;}
 .guide-steps li b{color:var(--text2);font-weight:normal;background:rgba(255,122,162,.12);padding:1px 6px;border-radius:6px;}
+
+/* ===== TUTORIAL COACHMARKS ===== */
+.coach{position:fixed;inset:0;z-index:95;display:none;}
+.coach.show{display:block;animation:fadeIn .3s;}
+.coach-dim{position:absolute;inset:0;background:rgba(15,6,11,.78);backdrop-filter:blur(2px);}
+.coach-step{position:absolute;inset:0;}
+/* spotlight ring on + button */
+.coach-spot{position:absolute;width:64px;height:64px;border-radius:50%;border:2.5px solid var(--rose);
+  box-shadow:0 0 0 6px rgba(255,122,162,.25), 0 0 24px rgba(255,122,162,.6);
+  animation:spotPulse 1.4s ease-in-out infinite;}
+@keyframes spotPulse{0%,100%{transform:scale(1);box-shadow:0 0 0 6px rgba(255,122,162,.25),0 0 24px rgba(255,122,162,.6);}
+  50%{transform:scale(1.12);box-shadow:0 0 0 10px rgba(255,122,162,.12),0 0 30px rgba(255,122,162,.7);}}
+.coach-arrow{position:absolute;width:120px;height:90px;pointer-events:none;filter:drop-shadow(0 2px 6px rgba(255,122,162,.5));}
+.coach-tip{position:absolute;max-width:260px;background:linear-gradient(155deg,var(--card2),var(--card));
+  border:1px solid var(--line2);border-radius:20px;padding:18px 20px;text-align:center;
+  box-shadow:0 18px 40px -16px rgba(0,0,0,.7);animation:pop .4s cubic-bezier(.2,1.3,.5,1) both;}
+.coach-tip.center{left:50%;top:50%;transform:translate(-50%,-50%);}
+.coach-num{font-family:'Jua';font-size:11px;letter-spacing:1px;color:var(--rose);margin-bottom:8px;}
+.coach-tip p{font-size:14px;color:var(--text);line-height:1.6;margin-bottom:16px;}
+.coach-tip p b{color:var(--rose);}
+.coach-next{padding:11px 22px;border:none;border-radius:14px;cursor:pointer;font-family:'Jua';font-size:14px;color:#fff;
+  background:linear-gradient(120deg,var(--rose),var(--rose-d));box-shadow:0 8px 18px -8px var(--glow);transition:.15s;}
+.coach-next:active{transform:scale(.96);}
 </style>
 </head>
 <body>
@@ -408,6 +435,32 @@ body.modal-open .draw-btn{visibility:hidden;}
   </div>
 </div>
 
+<!-- TUTORIAL coachmarks (first time only) -->
+<div class="coach" id="coach">
+  <div class="coach-dim"></div>
+  <!-- step 1: + button -->
+  <div class="coach-step" id="coachStep1">
+    <div class="coach-spot" id="spotAdd"></div>
+    <svg class="coach-arrow" id="arrow1" viewBox="0 0 120 90" preserveAspectRatio="none">
+      <path d="M10,80 C40,80 80,50 100,18" fill="none" stroke="var(--rose)" stroke-width="2.5" stroke-dasharray="6 6" stroke-linecap="round"/>
+      <path d="M100,18 l-12,4 M100,18 l-3,12" fill="none" stroke="var(--rose)" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <div class="coach-tip" id="tip1">
+      <div class="coach-num">STEP 1</div>
+      <p>먼저 <b>＋</b>를 눌러<br>가고 싶은 <b>데이트볼</b>을 만들어요 💌</p>
+      <button class="coach-next" data-coach="2">다음 ›</button>
+    </div>
+  </div>
+  <!-- step 2: gacha machine -->
+  <div class="coach-step hidden" id="coachStep2">
+    <div class="coach-tip center" id="tip2">
+      <div class="coach-num">STEP 2</div>
+      <p><b>두근두근 뽑기</b>를 눌러<br>오늘의 데이트를 가챠로 뽑아요 ✨</p>
+      <button class="coach-next" data-coach="done">시작할게요 💕</button>
+    </div>
+  </div>
+</div>
+
 <div class="app">
   <header>
     <div class="brand"><span class="h">💕</span><h1>데이트 가챠</h1></div>
@@ -435,8 +488,8 @@ body.modal-open .draw-btn{visibility:hidden;}
         <div class="outlet"></div>
       </div>
     </div>
-    <button class="draw-btn" id="drawBtn"><span class="shine"></span>두근두근 뽑기 ✨</button>
     <p class="hint" id="playHint"></p>
+    <button class="draw-btn" id="drawBtn"><span class="shine"></span>두근두근 뽑기 ✨</button>
   </section>
 
   <!-- TODAY -->
@@ -455,8 +508,8 @@ body.modal-open .draw-btn{visibility:hidden;}
     <div class="form">
       <label>데이트 사진 (선택)</label>
       <div class="photo-pick" id="photoPick">
-        <span class="ph-icon" id="phIcon">🍽</span>
-        <span class="ph-label">사진을 추가하지 않으면 카테고리 아이콘이 들어가요</span>
+        <span class="ph-plus" id="phPlus">＋</span>
+        <span class="ph-label">사진 추가 <small>· 없으면 <span id="phCatPrev">🍽</span> 카테고리 아이콘이 들어가요</small></span>
         <button class="ph-x" id="photoX">✕</button>
       </div>
       <input type="file" id="photoInput" accept="image/*" class="hidden">
@@ -565,7 +618,7 @@ const SEED=[
   {title:'쿠킹 클래스 같이 듣기',cat:'🏃 액티비티',place:'성수 원데이클래스',cost:'8만원',time:'3시간',prep:'앞치마 제공',note:'서툴러도 같이 만드는 재미'},
 ];
 
-let state={pool:[],today:[],picked:[],lastReset:0,drawsToday:0,name:'',onboarded:false};
+let state={pool:[],today:[],picked:[],lastReset:0,drawsToday:0,name:'',onboarded:false,tutorialDone:false};
 let curPhoto=null;
 const $=s=>document.querySelector(s);
 const now=()=>Date.now();
@@ -729,7 +782,7 @@ function importData(e){
     try{
       const data=JSON.parse(ev.target.result);
       if(!data||typeof data!=='object'||!('pool' in data)){toast('올바른 백업 파일이 아니에요');return;}
-      state=Object.assign({pool:[],today:[],picked:[],lastReset:0,drawsToday:0,name:'',onboarded:false},data);
+      state=Object.assign({pool:[],today:[],picked:[],lastReset:0,drawsToday:0,name:'',onboarded:false,tutorialDone:false},data);
       save();renderAll();applyName();toast('백업을 불러왔어요 ⬆️💞');
     }catch(err){toast('파일을 읽을 수 없어요');}
   };
@@ -739,7 +792,7 @@ function importData(e){
 function resetData(){
   if(!confirm('정말 전체 초기화할까요?\n내 데이트볼·픽한 데이트·기록·닉네임이 모두 삭제되고 되돌릴 수 없어요.'))return;
   localStorage.removeItem('dategacha_v3');
-  state={pool:[],today:[],picked:[],lastReset:0,drawsToday:0,name:'',onboarded:false};
+  state={pool:[],today:[],picked:[],lastReset:0,drawsToday:0,name:'',onboarded:false,tutorialDone:false};
   curPhoto=null;
   closeModals();
   load();renderAll();applyName();
@@ -757,8 +810,45 @@ function finishOnboard(){
   const nm=($('#obName').value||'').trim();
   state.name=nm;state.onboarded=true;save();applyName();
   const ob=$('#onboard');ob.classList.add('hide');
-  setTimeout(()=>{ob.style.display='none';},420);
+  setTimeout(()=>{ob.style.display='none';
+    if(!state.tutorialDone) startTutorial();
+  },420);
   toast(nm?`${nm}님, 환영해요 💕`:'환영해요 💕');
+}
+
+/* first-time tutorial */
+function startTutorial(){
+  switchTab('play');
+  const coach=$('#coach');coach.classList.add('show');
+  document.body.classList.add('lock');
+  showCoachStep(1);
+}
+function showCoachStep(n){
+  $('#coachStep1').classList.toggle('hidden',n!==1);
+  $('#coachStep2').classList.toggle('hidden',n!==2);
+  if(n===1)positionCoach1();
+}
+function positionCoach1(){
+  const btn=$('#goAdd');if(!btn)return;
+  const r=btn.getBoundingClientRect();
+  const spot=$('#spotAdd');
+  const cx=r.left+r.width/2, cy=r.top+r.height/2;
+  spot.style.left=(cx-32)+'px';spot.style.top=(cy-32)+'px';
+  // arrow from tip up to button
+  const arrow=$('#arrow1');
+  arrow.style.left=(cx-118)+'px';arrow.style.top=(cy+18)+'px';
+  // tip below-left of button
+  const tip=$('#tip1');
+  tip.style.right=(window.innerWidth-r.right+4)+'px';
+  tip.style.top=(cy+96)+'px';
+}
+function nextCoach(step){
+  if(step==='done'){endTutorial();return;}
+  showCoachStep(parseInt(step,10));
+}
+function endTutorial(){
+  state.tutorialDone=true;save();
+  const coach=$('#coach');coach.classList.remove('show');
 }
 function applyName(){
   const t=$('#tagline');if(!t)return;
@@ -851,8 +941,8 @@ function addBall(){
 }
 function delBall(id){state.pool=state.pool.filter(p=>p.id!==id);save();renderAll();toast('삭제했어요');}
 
-function updatePhIcon(){const pp=$('#photoPick');if(pp.classList.contains('has'))return;const ic=$('#phIcon');if(ic)ic.textContent=CAT_EMOJI[$('#fCat').value]||'💕';}
-function clearPhoto(){curPhoto=null;const pp=$('#photoPick');pp.classList.remove('has');pp.querySelector('.ph-label').textContent='사진을 추가하지 않으면 카테고리 아이콘이 들어가요';const o=pp.querySelector('img');if(o)o.remove();pp.querySelector('.ph-icon').style.display='';updatePhIcon();}
+function updatePhIcon(){const prev=$('#phCatPrev');if(prev)prev.textContent=CAT_EMOJI[$('#fCat').value]||'💕';}
+function clearPhoto(){curPhoto=null;const pp=$('#photoPick');pp.classList.remove('has');const o=pp.querySelector('img');if(o)o.remove();updatePhIcon();}
 $('#fCat').addEventListener('change',updatePhIcon);
 $('#photoPick').addEventListener('click',e=>{if(e.target.id==='photoX')return;$('#photoInput').click();});
 $('#photoX').addEventListener('click',e=>{e.stopPropagation();clearPhoto();});
@@ -861,7 +951,6 @@ $('#photoInput').addEventListener('change',e=>{const f=e.target.files[0];if(!f)r
     if(w>h&&w>max){h=h*max/w;w=max;}else if(h>max){w=w*max/h;h=max;}
     const cv=document.createElement('canvas');cv.width=w;cv.height=h;cv.getContext('2d').drawImage(img,0,0,w,h);
     curPhoto=cv.toDataURL('image/jpeg',0.8);const pp=$('#photoPick');pp.classList.add('has');
-    pp.querySelector('.ph-icon').style.display='none';pp.querySelector('.ph-label').textContent='';
     let im=pp.querySelector('img');if(!im){im=document.createElement('img');pp.insertBefore(im,pp.firstChild);}im.src=curPhoto;};
     img.src=ev.target.result;};reader.readAsDataURL(f);});
 
@@ -887,7 +976,7 @@ function renderAll(){
   const left=DAILY_LIMIT-state.drawsToday;const btn=$('#drawBtn');
   if(left<=0){btn.classList.add('done');btn.innerHTML='🌙 오늘 완료!';}
   else{btn.classList.remove('done');btn.innerHTML='<span class="shine"></span>두근두근 뽑기 ✨';}
-  $('#playHint').innerHTML=left>0?`하루 <b>3번</b> 중 <b>${left}번</b> 남았어요`:'내일 또 두근두근 만나요';
+  $('#playHint').innerHTML=left>0?`오늘의 데이트, <b>${left}번</b> 더 뽑을 수 있어요 💕`:'오늘은 여기까지! 내일 또 두근두근 만나요 🌙';
 }
 
 let toastT;function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2200);}
@@ -900,6 +989,8 @@ $('#goHist').addEventListener('click',()=>openModal('histModal'));
 $('#obStart').addEventListener('click',finishOnboard);
 $('#obName').addEventListener('keydown',e=>{if(e.key==='Enter')finishOnboard();});
 $('#obGuideBtn').addEventListener('click',()=>openModal('guideModal'));
+document.querySelectorAll('.coach-next').forEach(b=>b.addEventListener('click',()=>nextCoach(b.dataset.coach)));
+window.addEventListener('resize',()=>{if($('#coach').classList.contains('show')&&!$('#coachStep1').classList.contains('hidden'))positionCoach1();});
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.tab)));
 document.querySelectorAll('.hist-tab').forEach(t=>t.addEventListener('click',()=>{
   document.querySelectorAll('.hist-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');
