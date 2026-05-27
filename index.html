@@ -54,6 +54,7 @@ body{
   overflow-x:hidden;
 }
 body.lock{overflow:hidden;height:100vh;height:100dvh;}
+body.modal-open{overflow:hidden;}
 .app{max-width:480px;margin:0 auto;padding:0 18px 24px;position:relative;z-index:2;
   min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;}
 /* when GACHA tab active, fit to viewport without scroll */
@@ -127,6 +128,9 @@ h1{font-family:'Jua',sans-serif;font-size:26px;letter-spacing:.5px;
   box-shadow:inset 0 0 32px rgba(255,255,255,.42), inset 0 -12px 24px rgba(226,63,114,.28);
 }
 .balls{position:absolute;left:0;right:0;bottom:0;height:100%;}
+.dome-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;color:#e23f72;font-family:'Jua';font-size:15px;line-height:1.5;padding:0 16px;}
+.dome-empty span{display:block;margin-top:8px;font-family:'Gowun Dodum';font-size:12.5px;color:rgba(160,40,80,.7);}
 .ball{position:absolute;border-radius:50%;
   box-shadow:inset -7px -9px 13px rgba(0,0,0,.16), inset 6px 7px 11px rgba(255,255,255,.9), 0 4px 8px rgba(160,40,80,.25);}
 .ball .hsym{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font-size:15px;}
@@ -215,14 +219,15 @@ h1{font-family:'Jua',sans-serif;font-size:26px;letter-spacing:.5px;
 
 /* ===== MODAL (add ball / history) ===== */
 .modal{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;
-  background:rgba(20,8,15,.7);backdrop-filter:blur(6px);}
+  background:rgba(20,8,15,.7);backdrop-filter:blur(6px);touch-action:none;}
 .modal.show{display:flex;animation:fadeIn .25s;}
 .modal.closing{animation:fadeOut .3s forwards;}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
 @keyframes fadeOut{from{opacity:1;}to{opacity:0;}}
 .sheet{width:100%;max-width:480px;max-height:88vh;overflow-y:auto;border-radius:28px 28px 0 0;
   background:linear-gradient(180deg,var(--card2),var(--bg2));border:1px solid var(--line2);border-bottom:none;
-  padding:10px 20px 32px;animation:slideUp .35s cubic-bezier(.2,1,.4,1);}
+  padding:10px 20px 32px;animation:slideUp .35s cubic-bezier(.2,1,.4,1);
+  overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch;}
 .modal.closing .sheet{animation:slideDown .3s cubic-bezier(.4,0,.7,1) forwards;}
 @keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
 @keyframes slideDown{from{transform:translateY(0);}to{transform:translateY(100%);}}
@@ -266,6 +271,8 @@ body.modal-open .draw-btn{visibility:hidden;}
 .hist-tab{flex:1;padding:9px 0;border:none;background:transparent;color:var(--text3);
   font-family:'Gowun Dodum';font-size:13px;border-radius:10px;cursor:pointer;transition:.15s;}
 .hist-tab.active{background:rgba(255,122,162,.18);color:var(--rose);font-weight:bold;}
+.hist-sec-t{font-family:'Jua';font-size:13.5px;color:var(--text2);margin:0 2px 10px;display:flex;align-items:center;gap:6px;}
+.hist-sec-t small{font-family:'Gowun Dodum';font-size:11px;color:#fff;background:rgba(255,122,162,.3);padding:1px 8px;border-radius:10px;}
 .pool-item{display:flex;align-items:center;gap:12px;background:rgba(255,182,193,.05);border:1px solid var(--line);
   border-radius:16px;padding:11px 13px;margin-bottom:9px;}
 .pool-item .pthumb{width:42px;height:42px;border-radius:12px;flex-shrink:0;overflow:hidden;
@@ -626,7 +633,7 @@ const fmtDate=ts=>{const d=new Date(ts);return `${d.getMonth()+1}월 ${d.getDate
 
 function load(){
   try{const raw=JSON.parse(localStorage.getItem('dategacha_v3')||'null');if(raw)state=Object.assign(state,raw);}catch(e){}
-  if(!state.pool||state.pool.length===0){state.pool=SEED.map((s,i)=>({id:'seed'+i,...s,photo:null,rarity:weightedRarity()}));}
+  if(!state.pool)state.pool=[];
   checkReset();
 }
 function save(){localStorage.setItem('dategacha_v3',JSON.stringify(state));}
@@ -646,7 +653,11 @@ function spawnHearts(){const c=$('#hearts');for(let i=0;i<13;i++){const s=docume
 
 function renderDome(){
   const dome=$('#domeBalls');dome.innerHTML='';
-  const n=Math.max(5,Math.min(state.pool.length||7,8));
+  if(state.pool.length===0){
+    dome.innerHTML=`<div class="dome-empty">아직 데이트볼이 없어요<br><span>＋ 를 눌러 데이트볼을 만들어요</span></div>`;
+    return;
+  }
+  const n=Math.min(state.pool.length,8);
   // bottom-anchored pile: b = distance from bottom
   const layout=[{x:30,b:6,s:58},{x:92,b:0,s:54},{x:148,b:6,s:56},{x:62,b:54,s:50},{x:122,b:56,s:48},{x:92,b:104,s:46},{x:36,b:48,s:40},{x:154,b:48,s:40}];
   for(let i=0;i<n;i++){const L=layout[i%layout.length];const b=document.createElement('div');b.className='ball';
@@ -701,9 +712,25 @@ function renderHist(){
   $('#poolCount').textContent=state.pool.length;
   $('#pickedCount').textContent=state.picked.length;
   const hp=$('#histPool');
-  if(state.pool.length===0){hp.innerHTML=`<div class="empty"><span class="big">💌</span>데이트볼이 비었어요.<br>＋ 버튼으로 새 아이디어를 담아보세요!</div>`;}
-  else{hp.innerHTML='';state.pool.forEach(p=>{const it=document.createElement('div');it.className='pool-item';
-    it.innerHTML=`<div class="pthumb" data-detail="pool:${p.id}">${photoHTML(p,'em')}</div><div class="pb" data-detail="pool:${p.id}"><div class="pt">${esc(p.title)}</div><div class="ps">${esc(p.cat||'')}${p.place?' · '+esc(p.place):''}</div></div><button class="del" data-del="${p.id}">✕</button>`;hp.appendChild(it);});}
+  let html='';
+  // 섹션 1: 가챠 안에 든(아직 안 뽑은) 데이트볼
+  html+=`<div class="hist-sec-t">🎰 가챠 속 데이트볼 <small>${state.pool.length}</small></div>`;
+  if(state.pool.length===0){
+    html+=`<div class="empty"><span class="big">💌</span>가챠가 비었어요.<br>＋ 버튼으로 데이트볼을 만들어보세요!</div>`;
+  }else{
+    state.pool.forEach(p=>{
+      html+=`<div class="pool-item"><div class="pthumb" data-detail="pool:${p.id}">${photoHTML(p,'em')}</div><div class="pb" data-detail="pool:${p.id}"><div class="pt">${esc(p.title)}</div><div class="ps">${esc(p.cat||'')}${p.place?' · '+esc(p.place):''}</div></div><button class="del" data-del="${p.id}">✕</button></div>`;
+    });
+  }
+  // 섹션 2: 오늘 뽑은(아직 가챠 밖에 나와있는) 데이트볼
+  if(state.today.length>0){
+    html+=`<div class="hist-sec-t" style="margin-top:20px;">✨ 오늘 뽑은 데이트볼 <small>${state.today.length}</small></div>`;
+    state.today.forEach(t=>{
+      const badge=t.picked?'<span class="pdate">💖 메인</span>':'';
+      html+=`<div class="pool-item"><div class="pthumb" data-detail="today:${t.uid}">${photoHTML(t,'em')}</div><div class="pb" data-detail="today:${t.uid}"><div class="pt">${esc(t.title)}</div><div class="ps">${esc(t.cat||'')}${t.place?' · '+esc(t.place):''}</div></div>${badge}</div>`;
+    });
+  }
+  hp.innerHTML=html;
   const hk=$('#histPicked');
   if(state.picked.length===0){hk.innerHTML=`<div class="empty"><span class="big">💖</span>아직 픽한 데이트가 없어요.<br>오늘의 데이트에서 코스를 선택해보세요!</div>`;}
   else{hk.innerHTML='';state.picked.forEach(p=>{const it=document.createElement('div');it.className='pool-item';
@@ -743,6 +770,7 @@ function showDetail(ref){
   let c=null;
   if(kind==='pool')c=state.pool.find(p=>p.id===id);
   else if(kind==='picked')c=state.picked.find(p=>p.uid===id);
+  else if(kind==='today')c=state.today.find(p=>p.uid===id);
   if(!c)return;
   const r=RARITY[c.rarity]||RARITY.N;
   $('#detailCard').innerHTML=`
@@ -865,7 +893,7 @@ function spawnObHearts(){
 let drawing=false;
 function draw(){
   if(drawing)return;checkReset();
-  if(state.pool.length===0){toast('먼저 데이트볼을 만들어주세요 💌');openModal('addModal');return;}
+  if(state.pool.length===0){toast('아직 데이트볼이 없어요! ＋로 먼저 만들어주세요 💌');openModal('addModal');return;}
   if(state.drawsToday>=DAILY_LIMIT){toast('오늘은 다 뽑았어요. 내일 또 만나요 🌙');return;}
   drawing=true;const machine=$('#machine');machine.classList.add('shaking');
   const idx=Math.floor(Math.random()*state.pool.length);const picked=state.pool[idx];
