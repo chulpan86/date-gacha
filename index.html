@@ -53,7 +53,13 @@ body{
   min-height:100%;
   overflow-x:hidden;
 }
-.app{max-width:480px;margin:0 auto;padding:0 18px 130px;position:relative;z-index:2;}
+body.lock{overflow:hidden;height:100vh;height:100dvh;}
+.app{max-width:480px;margin:0 auto;padding:0 18px 24px;position:relative;z-index:2;
+  min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;}
+/* when GACHA tab active, fit to viewport without scroll */
+#tab-play{display:flex;flex-direction:column;flex:1;min-height:0;}
+#tab-play .machine-wrap{flex:1;min-height:0;align-items:center;justify-content:center;}
+#tab-play .machine{max-height:100%;}
 
 /* floating hearts bg */
 .hearts{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
@@ -66,7 +72,7 @@ body{
 }
 
 /* ===== HEADER (logo + actions on one clean line) ===== */
-header{position:relative;z-index:2;padding:30px 2px 4px;display:flex;align-items:center;justify-content:space-between;}
+header{position:relative;z-index:2;padding:22px 2px 4px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .brand{display:flex;align-items:center;gap:9px;}
 .brand .h{font-size:19px;animation:beat 1.3s ease-in-out infinite;}
 @keyframes beat{0%,100%{transform:scale(1);}25%{transform:scale(1.22);}40%{transform:scale(.95);}}
@@ -80,10 +86,10 @@ h1{font-family:'Jua',sans-serif;font-size:26px;letter-spacing:.5px;
   color:var(--rose);font-size:19px;display:flex;align-items:center;justify-content:center;transition:.15s;
   box-shadow:0 6px 14px -6px var(--glow);}
 .ico:active{transform:scale(.9);}
-.tagline{position:relative;z-index:2;font-size:12.5px;color:var(--text3);margin:6px 2px 0;}
+.tagline{position:relative;z-index:2;font-size:12.5px;color:var(--text3);margin:6px 2px 0;flex-shrink:0;}
 
 /* ===== TABS (single segmented control, with quota pips inside) ===== */
-.tabbar{position:relative;z-index:2;margin:18px 0 18px;}
+.tabbar{position:relative;z-index:2;margin:14px 0 14px;flex-shrink:0;}
 .tabs{display:flex;gap:6px;background:rgba(255,182,193,.06);
   padding:5px;border-radius:18px;border:1px solid var(--line);}
 .tab{flex:1;padding:12px 0;border:none;background:transparent;color:var(--text3);
@@ -104,16 +110,16 @@ h1{font-family:'Jua',sans-serif;font-size:26px;letter-spacing:.5px;
 
 .machine-wrap{position:relative;z-index:2;display:flex;justify-content:center;margin-top:4px;}
 .machine{
-  width:280px;border-radius:34px;position:relative;padding:20px 18px 24px;
+  width:248px;border-radius:30px;position:relative;padding:16px 16px 18px;
   background:linear-gradient(160deg,#ff9bbb,#ff5f90 55%,#e23f72);
   box-shadow:0 24px 52px -18px rgba(255,79,134,.6), inset 0 2px 0 rgba(255,255,255,.35);
 }
-.machine::before{content:"";position:absolute;inset:0;border-radius:34px;
+.machine::before{content:"";position:absolute;inset:0;border-radius:30px;
   background:linear-gradient(180deg,rgba(255,255,255,.25),transparent 28%);pointer-events:none;}
-.m-title{text-align:center;color:#fff;font-family:'Jua';font-size:22px;letter-spacing:2px;
-  text-shadow:0 1px 3px rgba(160,30,70,.35);margin-bottom:14px;}
+.m-title{text-align:center;color:#fff;font-family:'Jua';font-size:19px;letter-spacing:2px;
+  text-shadow:0 1px 3px rgba(160,30,70,.35);margin-bottom:10px;}
 .dome{
-  height:226px;border-radius:24px 24px 18px 18px;position:relative;overflow:hidden;
+  height:min(38dvh,224px);border-radius:22px 22px 16px 16px;position:relative;overflow:hidden;
   background:
     radial-gradient(140px 90px at 38% 16%, rgba(255,255,255,.55), transparent 60%),
     linear-gradient(180deg, rgba(255,255,255,.32), rgba(255,255,255,.08) 42%, rgba(255,210,222,.2));
@@ -129,21 +135,21 @@ h1{font-family:'Jua',sans-serif;font-size:26px;letter-spacing:.5px;
 .machine.shaking{animation:mShake .28s ease-in-out infinite;}
 @keyframes mShake{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px) rotate(-.8deg);}75%{transform:translateX(4px) rotate(.8deg);}}
 
-.tray{margin-top:-2px;height:74px;border-radius:18px;position:relative;
+.tray{margin-top:-2px;height:60px;border-radius:16px;position:relative;
   background:linear-gradient(180deg,rgba(255,255,255,.32),rgba(226,63,114,.32));
   box-shadow:inset 0 3px 6px rgba(255,255,255,.4), inset 0 -4px 8px rgba(160,40,80,.3);
   display:flex;align-items:center;justify-content:center;}
-.knob{width:58px;height:58px;border-radius:50%;cursor:pointer;position:relative;
+.knob{width:50px;height:50px;border-radius:50%;cursor:pointer;position:relative;
   background:radial-gradient(circle at 35% 30%,#fff4f8,#ffd0dd 42%,#ff7aa2);
   box-shadow:0 6px 14px -3px rgba(160,40,80,.5), inset 0 2px 4px rgba(255,255,255,.85);transition:transform .15s;}
-.knob::before{content:"";position:absolute;left:50%;top:50%;width:6px;height:24px;border-radius:5px;
+.knob::before{content:"";position:absolute;left:50%;top:50%;width:6px;height:20px;border-radius:5px;
   background:rgba(226,63,114,.9);transform:translate(-50%,-50%);}
 .knob:active{transform:scale(.9) rotate(20deg);}
-.outlet{margin:12px auto 0;width:116px;height:28px;border-radius:12px;
+.outlet{margin:10px auto 0;width:104px;height:22px;border-radius:11px;
   background:linear-gradient(180deg,rgba(160,40,80,.4),rgba(160,40,80,.6));box-shadow:inset 0 2px 5px rgba(120,20,50,.6);}
 
-.draw-btn{margin-top:24px;width:100%;padding:19px;border:none;border-radius:22px;cursor:pointer;
-  font-family:'Jua';font-size:19px;letter-spacing:1px;color:#fff;position:relative;overflow:hidden;
+.draw-btn{margin-top:16px;width:100%;padding:17px;border:none;border-radius:20px;cursor:pointer;flex-shrink:0;
+  font-family:'Jua';font-size:18px;letter-spacing:1px;color:#fff;position:relative;overflow:hidden;
   background:linear-gradient(120deg,var(--rose-d),var(--rose) 45%,var(--peach));
   box-shadow:0 16px 32px -12px var(--glow);transition:.18s;}
 .draw-btn:active{transform:scale(.97);}
@@ -151,7 +157,18 @@ h1{font-family:'Jua',sans-serif;font-size:26px;letter-spacing:.5px;
 .draw-btn .shine{position:absolute;top:0;left:-60%;width:40%;height:100%;
   background:linear-gradient(120deg,transparent,rgba(255,255,255,.55),transparent);animation:shine 2.6s ease-in-out infinite;}
 @keyframes shine{0%{left:-60%;}55%,100%{left:130%;}}
-.hint{text-align:center;margin-top:12px;font-size:12.5px;color:var(--text3);}
+.hint{text-align:center;margin-top:9px;font-size:12.5px;color:var(--text3);flex-shrink:0;}
+
+/* small screens (SE 등) 추가 압축 */
+@media (max-height:700px){
+  header{padding:16px 2px 2px;}
+  .tagline{font-size:11.5px;margin-top:4px;}
+  .tabbar{margin:10px 0 10px;}
+  .m-title{margin-bottom:8px;font-size:18px;}
+  .dome{height:34dvh;}
+  .draw-btn{margin-top:12px;padding:15px;font-size:17px;}
+  .hint{margin-top:7px;}
+}
 
 /* ===== TODAY (date cards) ===== */
 .sec-title{display:flex;align-items:center;gap:7px;font-family:'Jua';font-size:16px;color:var(--text);margin:2px 2px 14px;}
@@ -200,11 +217,17 @@ h1{font-family:'Jua',sans-serif;font-size:26px;letter-spacing:.5px;
 .modal{position:fixed;inset:0;z-index:60;display:none;align-items:flex-end;justify-content:center;
   background:rgba(20,8,15,.7);backdrop-filter:blur(6px);}
 .modal.show{display:flex;animation:fadeIn .25s;}
+.modal.closing{animation:fadeOut .3s forwards;}
 @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes fadeOut{from{opacity:1;}to{opacity:0;}}
 .sheet{width:100%;max-width:480px;max-height:88vh;overflow-y:auto;border-radius:28px 28px 0 0;
   background:linear-gradient(180deg,var(--card2),var(--bg2));border:1px solid var(--line2);border-bottom:none;
   padding:10px 20px 32px;animation:slideUp .35s cubic-bezier(.2,1,.4,1);}
+.modal.closing .sheet{animation:slideDown .3s cubic-bezier(.4,0,.7,1) forwards;}
 @keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+@keyframes slideDown{from{transform:translateY(0);}to{transform:translateY(100%);}}
+/* 모달 열렸을 때 뒤 뽑기 버튼 숨김 */
+body.modal-open .draw-btn{visibility:hidden;}
 .sheet .grip{width:42px;height:5px;border-radius:5px;background:var(--line2);margin:8px auto 16px;}
 .sheet .sh-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
 .sheet .sh-head .t{font-family:'Jua';font-size:18px;color:var(--text);}
@@ -298,10 +321,92 @@ h1{font-family:'Jua',sans-serif;font-size:26px;letter-spacing:.5px;
   box-shadow:0 12px 30px -10px rgba(0,0,0,.6);white-space:nowrap;}
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
 .hidden{display:none !important;}
+
+/* ===== ONBOARDING ===== */
+.onboard{position:fixed;inset:0;z-index:100;overflow-y:auto;display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(900px 520px at 50% -8%, rgba(255,122,162,.3), transparent 60%),
+    radial-gradient(700px 460px at 90% 110%, rgba(255,179,138,.18), transparent 60%),
+    linear-gradient(180deg,var(--bg),var(--bg2));}
+.onboard.hide{animation:obOut .4s forwards;}
+@keyframes obOut{to{opacity:0;visibility:hidden;}}
+.ob-hearts{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+.ob-hearts span{position:absolute;bottom:-40px;opacity:0;animation:rise linear infinite;color:var(--rose);filter:drop-shadow(0 0 6px var(--glow));}
+.ob-inner{position:relative;z-index:2;width:100%;max-width:380px;padding:40px 30px;text-align:center;}
+.ob-machine{display:flex;justify-content:center;margin-bottom:24px;}
+.ob-dome{width:180px;height:150px;border-radius:30px 30px 22px 22px;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#ff9bbb,#ff5f90 55%,#e23f72);
+  box-shadow:0 22px 46px -16px rgba(255,79,134,.6), inset 0 2px 0 rgba(255,255,255,.4);
+  animation:obFloat 3s ease-in-out infinite;}
+.ob-dome::before{content:"";position:absolute;inset:10px;border-radius:20px 20px 14px 14px;
+  background:radial-gradient(100px 60px at 38% 16%, rgba(255,255,255,.5), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.3), rgba(255,255,255,.06) 45%, rgba(255,210,222,.2));
+  border:1.5px solid rgba(255,255,255,.55);}
+@keyframes obFloat{0%,100%{transform:translateY(0) rotate(-1deg);}50%{transform:translateY(-10px) rotate(1deg);}}
+.ob-ball{position:absolute;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;z-index:2;
+  box-shadow:inset -5px -7px 10px rgba(0,0,0,.16), inset 5px 6px 9px rgba(255,255,255,.9), 0 3px 6px rgba(160,40,80,.3);}
+.ob-title{font-family:'Jua';font-size:38px;letter-spacing:.5px;margin-bottom:14px;
+  background:linear-gradient(95deg,var(--rose),var(--peach) 70%,var(--gold));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  text-shadow:0 0 30px rgba(255,122,162,.3);}
+.ob-sub{font-size:14.5px;color:var(--text2);line-height:1.6;margin-bottom:30px;}
+.ob-field{text-align:left;margin-bottom:18px;}
+.ob-field label{display:block;font-size:13px;color:var(--text2);margin:0 4px 8px;}
+.ob-field input{width:100%;padding:15px 16px;border-radius:15px;background:rgba(0,0,0,.22);
+  border:1px solid var(--line2);color:var(--text);font-family:'Gowun Dodum';font-size:15px;outline:none;transition:.15s;}
+.ob-field input:focus{border-color:var(--rose);box-shadow:0 0 0 3px rgba(255,122,162,.18);}
+.ob-start{width:100%;padding:18px;border:none;border-radius:20px;cursor:pointer;
+  font-family:'Jua';font-size:18px;letter-spacing:1px;color:#fff;position:relative;overflow:hidden;
+  background:linear-gradient(120deg,var(--rose-d),var(--rose) 45%,var(--peach));
+  box-shadow:0 16px 32px -12px var(--glow);transition:.18s;margin-bottom:26px;}
+.ob-start:active{transform:scale(.97);}
+.ob-guide-btn{width:100%;padding:15px 18px;border:1px solid var(--line);border-radius:16px;cursor:pointer;
+  background:rgba(255,182,193,.06);color:var(--text2);font-family:'Gowun Dodum';font-size:13px;
+  display:flex;align-items:center;justify-content:center;gap:6px;transition:.15s;}
+.ob-guide-btn:active{transform:scale(.98);background:rgba(255,182,193,.12);}
+.ob-guide-btn .chev{color:var(--rose);font-size:17px;line-height:1;}
+/* guide sheet */
+.guide-lead{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:18px;}
+.guide-os{background:rgba(255,182,193,.05);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:12px;}
+.guide-os-t{font-family:'Jua';font-size:14px;color:var(--text);margin-bottom:10px;}
+.guide-steps{list-style:none;counter-reset:step;}
+.guide-steps li{position:relative;padding-left:30px;font-size:12.5px;color:var(--text3);line-height:1.6;margin-bottom:8px;counter-increment:step;}
+.guide-steps li:last-child{margin-bottom:0;}
+.guide-steps li::before{content:counter(step);position:absolute;left:0;top:0;width:21px;height:21px;border-radius:50%;
+  background:linear-gradient(120deg,var(--rose),var(--rose-d));color:#fff;font-family:'Jua';font-size:11px;
+  display:flex;align-items:center;justify-content:center;}
+.guide-steps li b{color:var(--text2);font-weight:normal;background:rgba(255,122,162,.12);padding:1px 6px;border-radius:6px;}
 </style>
 </head>
 <body>
 <div class="hearts" id="hearts"></div>
+
+<!-- ONBOARDING / SPLASH -->
+<div class="onboard" id="onboard">
+  <div class="ob-hearts" id="obHearts"></div>
+  <div class="ob-inner">
+    <div class="ob-machine">
+      <div class="ob-dome">
+        <span class="ob-ball" style="left:14%;bottom:8%;width:46px;height:46px;background:radial-gradient(circle at 35% 28%,#fff,#ffe0ec 42%,#ff6f9c);">💗</span>
+        <span class="ob-ball" style="left:42%;bottom:2%;width:42px;height:42px;background:radial-gradient(circle at 35% 28%,#fff,#fff6dd 42%,#ffd24d);">💕</span>
+        <span class="ob-ball" style="left:66%;bottom:8%;width:44px;height:44px;background:radial-gradient(circle at 35% 28%,#fff,#ffe6d6 42%,#ffb38a);">💞</span>
+        <span class="ob-ball" style="left:30%;bottom:42%;width:40px;height:40px;background:radial-gradient(circle at 35% 28%,#fff,#fce0ff 42%,#e09bff);">🩷</span>
+        <span class="ob-ball" style="left:54%;bottom:44%;width:38px;height:38px;background:radial-gradient(circle at 35% 28%,#fff,#ffd9e6 42%,#ff8fa8);">💓</span>
+      </div>
+    </div>
+    <h1 class="ob-title">데이트 가챠</h1>
+    <p class="ob-sub">오늘 어디 가지? 고민은 그만,<br>두근두근 가챠에 맡겨요 💕</p>
+
+    <div class="ob-field">
+      <label>어떻게 불러드릴까요?</label>
+      <input id="obName" placeholder="닉네임 (예: 새벽)" maxlength="12">
+    </div>
+
+    <button class="ob-start" id="obStart">시작하기 ✨</button>
+
+    <button class="ob-guide-btn" id="obGuideBtn">📲 홈 화면에 추가하면 앱처럼 쓸 수 있어요 <span class="chev">›</span></button>
+  </div>
+</div>
 
 <div class="app">
   <header>
@@ -311,21 +416,17 @@ h1{font-family:'Jua',sans-serif;font-size:26px;letter-spacing:.5px;
       <button class="ico" id="goHist" title="히스토리">🎀</button>
     </div>
   </header>
-  <p class="tagline">오늘 어디 가지? 고민은 그만, 가챠에 맡겨요</p>
+  <p class="tagline" id="tagline">오늘 어디 가지? 고민은 그만, 가챠에 맡겨요</p>
 
   <div class="tabbar">
     <div class="tabs">
-      <button class="tab active" data-tab="play">GACHA</button>
+      <button class="tab active" data-tab="play">GACHA <span class="badge" id="quotaBadge">3</span></button>
       <button class="tab" data-tab="today">데이트 고르기 <span class="badge" id="todayBadge">0</span></button>
     </div>
   </div>
 
   <!-- PLAY -->
   <section id="tab-play">
-    <div class="quota-line">
-      <div class="pips" id="pips"></div>
-      <span id="quotaTxt"></span>
-    </div>
     <div class="machine-wrap">
       <div class="machine" id="machine">
         <div class="m-title">GACHA</div>
@@ -405,6 +506,32 @@ h1{font-family:'Jua',sans-serif;font-size:26px;letter-spacing:.5px;
   </div>
 </div>
 
+<!-- HOME-SCREEN GUIDE bottom sheet -->
+<div class="modal" id="guideModal" style="z-index:110;">
+  <div class="sheet">
+    <div class="grip"></div>
+    <div class="sh-head"><span class="t">📲 홈 화면에 추가하기</span><button class="x" data-close>✕</button></div>
+    <p class="guide-lead">홈 화면에 추가하면 주소창·툴바 없이 진짜 앱처럼 전체 화면으로 쓸 수 있어요.</p>
+    <div class="guide-os">
+      <div class="guide-os-t"> 아이폰 (사파리)</div>
+      <ol class="guide-steps">
+        <li>하단 가운데 <b>공유 버튼</b> (□↑) 탭</li>
+        <li>메뉴에서 <b>‘홈 화면에 추가’</b> 선택</li>
+        <li>우측 상단 <b>‘추가’</b> 탭하면 완료</li>
+      </ol>
+    </div>
+    <div class="guide-os">
+      <div class="guide-os-t"> 안드로이드 (크롬)</div>
+      <ol class="guide-steps">
+        <li>우측 상단 <b>⋮ 메뉴</b> 탭</li>
+        <li><b>‘홈 화면에 추가’</b> 선택</li>
+        <li><b>‘추가’</b> 탭하면 완료</li>
+      </ol>
+    </div>
+    <button class="add-btn" data-close style="margin-top:20px;">확인했어요 💕</button>
+  </div>
+</div>
+
 <!-- reveal overlay -->
 <div class="overlay" id="overlay">
   <div class="reveal-stage">
@@ -438,7 +565,7 @@ const SEED=[
   {title:'쿠킹 클래스 같이 듣기',cat:'🏃 액티비티',place:'성수 원데이클래스',cost:'8만원',time:'3시간',prep:'앞치마 제공',note:'서툴러도 같이 만드는 재미'},
 ];
 
-let state={pool:[],today:[],picked:[],lastReset:0,drawsToday:0};
+let state={pool:[],today:[],picked:[],lastReset:0,drawsToday:0,name:'',onboarded:false};
 let curPhoto=null;
 const $=s=>document.querySelector(s);
 const now=()=>Date.now();
@@ -467,17 +594,17 @@ function spawnHearts(){const c=$('#hearts');for(let i=0;i<13;i++){const s=docume
 function renderDome(){
   const dome=$('#domeBalls');dome.innerHTML='';
   const n=Math.max(5,Math.min(state.pool.length||7,8));
-  const layout=[{x:54,y:150,s:62},{x:120,y:158,s:58},{x:178,y:150,s:60},{x:88,y:104,s:56},{x:150,y:104,s:54},{x:118,y:60,s:50},{x:60,y:96,s:46},{x:182,y:96,s:46}];
+  // bottom-anchored pile: b = distance from bottom
+  const layout=[{x:30,b:6,s:58},{x:92,b:0,s:54},{x:148,b:6,s:56},{x:62,b:54,s:50},{x:122,b:56,s:48},{x:92,b:104,s:46},{x:36,b:48,s:40},{x:154,b:48,s:40}];
   for(let i=0;i<n;i++){const L=layout[i%layout.length];const b=document.createElement('div');b.className='ball';
     const rar=state.pool[i]?state.pool[i].rarity:weightedRarity();b.style.background=ballStyle(rar);
-    b.style.width=L.s+'px';b.style.height=L.s+'px';b.style.left=L.x+'px';b.style.bottom=(226-L.y-L.s)+'px';
+    b.style.width=L.s+'px';b.style.height=L.s+'px';b.style.left=L.x+'px';b.style.bottom=L.b+'px';
     const hs=document.createElement('span');hs.className='hsym';hs.textContent=HEARTS[i%HEARTS.length];b.appendChild(hs);dome.appendChild(b);}
 }
 
 function renderQuota(){
-  const left=DAILY_LIMIT-state.drawsToday;const pips=$('#pips');pips.innerHTML='';
-  for(let i=0;i<DAILY_LIMIT;i++){const p=document.createElement('span');p.className='pip'+(i<state.drawsToday?' used':'');pips.appendChild(p);}
-  $('#quotaTxt').textContent=left>0?`오늘 ${left}번 남았어요`:'오늘은 다 뽑았어요 🌙';
+  const left=DAILY_LIMIT-state.drawsToday;
+  const badge=$('#quotaBadge');if(badge)badge.textContent=left;
 }
 
 function photoHTML(c,cls){if(c.photo)return `<img src="${c.photo}" alt="">`;return `<span class="${cls}">${CAT_EMOJI[c.cat]||'💕'}</span>`;}
@@ -602,19 +729,46 @@ function importData(e){
     try{
       const data=JSON.parse(ev.target.result);
       if(!data||typeof data!=='object'||!('pool' in data)){toast('올바른 백업 파일이 아니에요');return;}
-      state=Object.assign({pool:[],today:[],picked:[],lastReset:0,drawsToday:0},data);
-      save();renderAll();toast('백업을 불러왔어요 ⬆️💞');
+      state=Object.assign({pool:[],today:[],picked:[],lastReset:0,drawsToday:0,name:'',onboarded:false},data);
+      save();renderAll();applyName();toast('백업을 불러왔어요 ⬆️💞');
     }catch(err){toast('파일을 읽을 수 없어요');}
   };
   reader.readAsText(f);
   e.target.value='';
 }
 function resetData(){
-  if(!confirm('정말 전체 초기화할까요?\n내 데이트볼·픽한 데이트·기록이 모두 삭제되고 되돌릴 수 없어요.'))return;
+  if(!confirm('정말 전체 초기화할까요?\n내 데이트볼·픽한 데이트·기록·닉네임이 모두 삭제되고 되돌릴 수 없어요.'))return;
   localStorage.removeItem('dategacha_v3');
-  state={pool:[],today:[],picked:[],lastReset:0,drawsToday:0};
+  state={pool:[],today:[],picked:[],lastReset:0,drawsToday:0,name:'',onboarded:false};
   curPhoto=null;
-  load();renderAll();toast('전체 초기화했어요 🌱');
+  closeModals();
+  load();renderAll();applyName();
+  toast('전체 초기화했어요 🌱');
+  setTimeout(showOnboard,350);
+}
+
+/* onboarding */
+function showOnboard(){
+  const ob=$('#onboard');ob.style.display='flex';ob.classList.remove('hide');
+  document.body.classList.add('lock');
+  if($('#obName'))$('#obName').value=state.name||'';
+}
+function finishOnboard(){
+  const nm=($('#obName').value||'').trim();
+  state.name=nm;state.onboarded=true;save();applyName();
+  const ob=$('#onboard');ob.classList.add('hide');
+  setTimeout(()=>{ob.style.display='none';},420);
+  toast(nm?`${nm}님, 환영해요 💕`:'환영해요 💕');
+}
+function applyName(){
+  const t=$('#tagline');if(!t)return;
+  t.textContent=state.name?`${state.name}님, 오늘 어디 가지? 가챠에 맡겨요`:'오늘 어디 가지? 고민은 그만, 가챠에 맡겨요';
+}
+function spawnObHearts(){
+  const c=$('#obHearts');if(!c)return;
+  for(let i=0;i<10;i++){const s=document.createElement('span');s.textContent=HEARTS[i%HEARTS.length];
+    s.style.left=Math.random()*100+'%';s.style.fontSize=(12+Math.random()*16)+'px';
+    s.style.animationDuration=(9+Math.random()*9)+'s';s.style.animationDelay=(Math.random()*9)+'s';c.appendChild(s);}
 }
 
 /* DRAW */
@@ -715,9 +869,18 @@ function switchTab(name){
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab===name));
   $('#tab-play').classList.toggle('hidden',name!=='play');
   $('#tab-today').classList.toggle('hidden',name!=='today');
+  document.body.classList.toggle('lock',name==='play');
 }
-function openModal(id){$('#'+id).classList.add('show');if(id==='histModal')renderHist();if(id==='addModal')updatePhIcon();}
-function closeModals(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('show'));}
+function openModal(id){$('#'+id).classList.add('show');document.body.classList.add('modal-open');if(id==='histModal')renderHist();if(id==='addModal')updatePhIcon();}
+function closeModals(){
+  const open=document.querySelector('.modal.show');
+  if(!open){document.body.classList.remove('modal-open');return;}
+  open.classList.add('closing');
+  setTimeout(()=>{
+    open.classList.remove('show','closing');
+    document.body.classList.remove('modal-open');
+  },300);
+}
 
 function renderAll(){
   renderQuota();renderDome();renderToday();renderHist();
@@ -734,6 +897,9 @@ $('#knob').addEventListener('click',draw);
 $('#addBtn').addEventListener('click',addBall);
 $('#goAdd').addEventListener('click',()=>openModal('addModal'));
 $('#goHist').addEventListener('click',()=>openModal('histModal'));
+$('#obStart').addEventListener('click',finishOnboard);
+$('#obName').addEventListener('keydown',e=>{if(e.key==='Enter')finishOnboard();});
+$('#obGuideBtn').addEventListener('click',()=>openModal('guideModal'));
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.tab)));
 document.querySelectorAll('.hist-tab').forEach(t=>t.addEventListener('click',()=>{
   document.querySelectorAll('.hist-tab').forEach(x=>x.classList.remove('active'));t.classList.add('active');
@@ -751,7 +917,13 @@ document.addEventListener('click',e=>{
   if(act){if(act.dataset.act==='back')putBack(act.dataset.id);if(act.dataset.act==='pick')pickCourse(act.dataset.id);}
 });
 
-load();spawnHearts();renderAll();
+load();spawnHearts();spawnObHearts();renderAll();applyName();
+if(state.onboarded){
+  $('#onboard').style.display='none';
+  document.body.classList.add('lock');
+}else{
+  showOnboard();
+}
 setInterval(()=>{if(!$('#tab-today').classList.contains('hidden'))renderToday();},60000);
 </script>
 </body>
